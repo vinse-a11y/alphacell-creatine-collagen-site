@@ -5,20 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Built From Within — Creatine &amp; Collagen | Alphacell Labs</title>
 <meta name="description" content="5g creatine monohydrate + 5g grass-fed collagen per scoop. Unflavored, no fillers. Built for daily strength, recovery, and connective tissue support.">
-<meta name="theme-color" content="#171A1D">
+<meta name="theme-color" content="#0B2A3E">
 <link rel="preload" href="fonts/manrope-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="frames/elements/frame_0001.jpg" as="image" media="(min-width: 641px)">
+<link rel="preload" href="frames/drop/frame_0001.jpg" as="image" media="(min-width: 641px)">
 <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 <a class="skip-link" href="#formula">Skip to product information</a>
 
-<!-- Preloader -->
 <div class="loader" id="loader" role="status" aria-live="polite">
   <p class="loader__brand">ALPHACELL</p>
   <p class="loader__pct"><span id="loaderPct">0</span><span class="loader__unit">%</span></p>
-  <p class="loader__hint" id="loaderHint">Preparing the formation</p>
+  <p class="loader__hint">Flooding the chamber</p>
   <noscript><style>.loader{display:none!important}</style></noscript>
 </div>
 
@@ -29,91 +28,93 @@
 
 <main id="main">
 
-  <!-- SECTION 1 — HERO: THE ELEMENTS -->
-  <section class="chapter" id="chapter-elements" data-chapter="elements" aria-label="The elements">
+  <!-- 1 — THE DROP -->
+  <section class="chapter" id="chapter-drop" data-chapter="drop" aria-label="The drop">
     <div class="chapter__pin">
       <canvas class="chapter__canvas" aria-hidden="true"></canvas>
-      <img class="chapter__poster" src="frames/mobile/elements/key_10.jpg" alt="" aria-hidden="true" loading="eager" decoding="async">
+      <img class="chapter__poster" src="frames/mobile/drop/key_08.jpg" alt="" aria-hidden="true" loading="eager" decoding="async">
       <div class="hero-copy">
-        <p class="overline reveal" data-at="0.04">ALPHACELL PRESENTS</p>
+        <p class="overline reveal" data-at="0.04">ALPHACELL LABS · CREATINE + COLLAGEN</p>
         <h1 class="display reveal" data-at="0.10">BUILT FROM&nbsp;WITHIN.</h1>
         <p class="hero-copy__sub reveal" data-at="0.2">Creatine and collagen. Two foundations brought together in one daily formula.</p>
-        <p class="scroll-cue reveal" data-at="0.26" aria-hidden="true">SCROLL</p>
-      </div>
-      <div class="material-tags" aria-hidden="true">
-        <p class="material-tags__left reveal" data-at="0.5">CREATINE — PRECISE. COMPACT. ENERGETIC.</p>
-        <p class="material-tags__right reveal" data-at="0.62">COLLAGEN — TENSILE. LAYERED. STRUCTURAL.</p>
+        <p class="scroll-cue reveal" data-at="0.3" aria-hidden="true">SCROLL TO DESCEND</p>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 2 — THE FORMATION -->
-  <section class="chapter chapter--long" id="chapter-formation" data-chapter="formation" aria-label="The formation">
+  <!-- 2 — THE DESCENT -->
+  <section class="chapter chapter--long" id="chapter-descent" data-chapter="descent" aria-label="The descent">
     <div class="chapter__pin">
       <canvas class="chapter__canvas" aria-hidden="true"></canvas>
-      <img class="chapter__poster" src="frames/mobile/formation/key_10.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+      <img class="chapter__poster" src="frames/mobile/descent/key_10.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
 
-      <div class="meter" aria-hidden="false" role="group" aria-label="Formula stages">
-        <div class="meter__track" aria-hidden="true"><div class="meter__fill" id="meterFill"></div></div>
-        <ol class="meter__stages">
-          <li class="meter__stage" data-stage="0">
-            <span class="meter__num">01</span>
-            <span class="meter__name">CREATINE</span>
-            <span class="meter__dose">5&nbsp;g</span>
-            <span class="meter__line">Power for repeated effort.</span>
-          </li>
-          <li class="meter__stage" data-stage="1">
-            <span class="meter__num">02</span>
-            <span class="meter__name">COLLAGEN</span>
-            <span class="meter__dose">5&nbsp;g</span>
-            <span class="meter__line">Structure that supports movement.</span>
-          </li>
-          <li class="meter__stage" data-stage="2">
-            <span class="meter__num">03</span>
-            <span class="meter__name">ONE DAILY FORMULA</span>
-            <span class="meter__dose">10&nbsp;g scoop</span>
-            <span class="meter__line">Built to become part of the routine.</span>
-          </li>
-        </ol>
+      <!-- live readout: one container is 30 servings, so the descent counts them down -->
+      <div class="gauge" role="group" aria-label="Container progress">
+        <p class="gauge__label">SERVING</p>
+        <p class="gauge__value"><span id="gaugeNum">01</span><span class="gauge__of">/ 30</span></p>
+        <div class="gauge__track" aria-hidden="true"><div class="gauge__fill" id="gaugeFill"></div></div>
+        <p class="gauge__note">10&nbsp;g scoop · 300&nbsp;g container</p>
       </div>
 
-      <div class="callouts" aria-hidden="true">
-        <p class="callout callout--1" data-window="0.30,0.52"><span class="callout__rule"></span>CELLULAR ENERGY</p>
-        <p class="callout callout--2" data-window="0.42,0.64"><span class="callout__rule"></span>STRUCTURAL SUPPORT</p>
-        <p class="callout callout--3" data-window="0.55,0.78"><span class="callout__rule"></span>DAILY CONSISTENCY</p>
-      </div>
+      <!-- the brand's verified use timeline, surfacing at its stages -->
+      <ol class="stations" aria-label="What consistent daily use looks like">
+        <li class="station" data-window="0.06,0.34">
+          <span class="station__rule" aria-hidden="true"></span>
+          <span class="station__mark">DAY 1–3</span>
+          <span class="station__head">Setting the routine</span>
+          <span class="station__body">One scoop daily, mixed into water, smoothies, or shakes. This phase is about establishing the habit, not chasing immediate changes.</span>
+        </li>
+        <li class="station" data-window="0.30,0.58">
+          <span class="station__rule" aria-hidden="true"></span>
+          <span class="station__mark">WEEK 1–2</span>
+          <span class="station__head">A steady baseline</span>
+          <span class="station__body">Creatine monohydrate — 5&nbsp;g — is widely used to support strength output and workout performance. Collagen supports the structural tissues involved in movement and recovery.</span>
+        </li>
+        <li class="station" data-window="0.54,0.80">
+          <span class="station__rule" aria-hidden="true"></span>
+          <span class="station__mark">WEEK 3–4</span>
+          <span class="station__head">Consistency compounds</span>
+          <span class="station__body">Continued routine use supports the consistency that drives progress — showing up for training and recovery habits with fewer missed days.</span>
+        </li>
+        <li class="station" data-window="0.76,1.0">
+          <span class="station__rule" aria-hidden="true"></span>
+          <span class="station__mark">MONTH 1+</span>
+          <span class="station__head">Still going</span>
+          <span class="station__body">A clean daily habit, without stimulants, flavours, or unnecessary additives. Supporting training output while reinforcing the tissues that make movement feel durable.</span>
+        </li>
+      </ol>
     </div>
   </section>
 
-  <!-- SECTION 3 — ONE RITUAL -->
-  <section class="chapter chapter--long" id="chapter-ritual" data-chapter="ritual" aria-label="One ritual">
+  <!-- 3 — THE DEEP -->
+  <section class="chapter chapter--long" id="chapter-deep" data-chapter="deep" aria-label="The deep">
     <div class="chapter__pin">
       <canvas class="chapter__canvas" aria-hidden="true"></canvas>
-      <img class="chapter__poster" src="frames/mobile/ritual/key_16.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
-      <div class="ritual-copy">
-        <h2 class="display reveal" data-window="0.42,0.9">THE WORK IS&nbsp;DAILY.</h2>
-        <p class="ritual-copy__sub reveal" data-window="0.5,0.95">One scoop. One repeatable step. Built for the life that asks more of you.</p>
-        <p class="ritual-copy__doc reveal" data-window="0.6,1">You do not need a dramatic reinvention. You need something you can keep doing.</p>
+      <img class="chapter__poster" src="frames/mobile/deep/key_16.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+      <div class="deep-copy">
+        <h2 class="display reveal" data-window="0.34,1">NOTHING&nbsp;ELSE IN&nbsp;IT.</h2>
+        <p class="deep-copy__sub reveal" data-window="0.44,1">Five grams of creatine monohydrate. Five grams of grass-fed bovine collagen. Unflavored. No other ingredients.</p>
+        <p class="deep-copy__doc reveal" data-window="0.56,1">You do not need a dramatic reinvention. You need something you can keep doing.</p>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 3.5 — THE PRODUCT -->
+  <!-- THE PRODUCT — the real photograph, surfacing again -->
   <section class="product-reveal" aria-label="The product">
     <figure class="product-reveal__figure">
       <img id="productRender"
            src="https://cdn.shopify.com/s/files/1/0268/4518/4052/files/openart-image_SSPgme3E_1769718890848_raw.webp?v=1769767598"
-           alt="Alphacell Creatine &amp; Collagen container — 10.58 oz (300 g), 30 servings"
+           alt="Alphacell Labs Creatine + Collagen powder, unflavored — 10.58 oz (300 g) container"
            loading="lazy" decoding="async">
       <figcaption class="product-reveal__caption">
-        <p class="overline">THE FORMULA</p>
-        <h2 class="display-sm">Creatine&nbsp;&amp;&nbsp;Collagen</h2>
+        <p class="overline">DOCTOR FORMULATED</p>
+        <h2 class="display-sm">Creatine&nbsp;+&nbsp;Collagen</h2>
         <p>10.58&nbsp;oz&nbsp;(300&nbsp;g) · 30 servings · Unflavored</p>
       </figcaption>
     </figure>
   </section>
 
-  <!-- SECTION 4 — FORMULA -->
+  <!-- 4 — FORMULA -->
   <section class="formula" id="formula" aria-label="Formula details">
     <div class="formula__inner">
       <p class="overline">WHAT IS INSIDE</p>
@@ -158,22 +159,24 @@
         <summary class="facts__summary">Ingredient facts &amp; lab summary</summary>
         <div class="facts__panel">
           <h3 class="facts__title">Ingredients — per 1 scoop (10 g)</h3>
-          <table class="facts__table">
-            <thead><tr><th scope="col">Ingredient</th><th scope="col">Amount per serving</th></tr></thead>
-            <tbody>
-              <tr><td>Creatine Monohydrate</td><td class="mono">5 g</td></tr>
-              <tr><td>Grass-Fed Bovine Collagen</td><td class="mono">5 g</td></tr>
-              <tr><td>Other ingredients</td><td class="mono">None</td></tr>
-            </tbody>
-          </table>
+          <div class="facts__scroll">
+            <table class="facts__table">
+              <thead><tr><th scope="col">Ingredient</th><th scope="col">Amount per serving</th></tr></thead>
+              <tbody>
+                <tr><td>Creatine Monohydrate</td><td class="mono">5 g</td></tr>
+                <tr><td>Grass-Fed Bovine Collagen</td><td class="mono">5 g</td></tr>
+                <tr><td>Other ingredients</td><td class="mono">None</td></tr>
+              </tbody>
+            </table>
+          </div>
           <img class="facts__lab" src="https://cdn.shopify.com/s/files/1/0268/4518/4052/files/Creatine_Collagen_Heavy_Metals_Summary_with_Lab_page-0001.jpg?v=1776557755"
-               alt="Creatine &amp; Collagen heavy metals testing summary with laboratory report" loading="lazy" decoding="async">
+               alt="Creatine + Collagen heavy metals testing summary with laboratory report" loading="lazy" decoding="async">
         </div>
       </details>
     </div>
   </section>
 
-  <!-- SECTION 5 — THE PEOPLE BUILDING -->
+  <!-- 5 — THE PEOPLE BUILDING -->
   <section class="people" aria-label="The people building">
     <blockquote class="people__statement">
       <p>Strength rarely announces itself. It looks like the morning you protect, the work you return to, and the small things you choose to do again.</p>
@@ -181,7 +184,7 @@
     <a class="people__link" href="https://www.youtube.com/watch?v=g9e3AbIbM08" rel="noopener">Meet the people building something<span aria-hidden="true"> →</span></a>
   </section>
 
-  <!-- SECTION 6 — CTA -->
+  <!-- 6 — CTA -->
   <section class="cta" aria-label="Shop">
     <div class="cta__inner">
       <h2 class="display">BUILD IT&nbsp;DAILY.</h2>
@@ -207,9 +210,22 @@
       <p class="cta__sub">Subscription options — ships monthly (save 10%), every 3&nbsp;months (save 5%), or every 12&nbsp;months (save 2%).</p>
 
       <div class="cta__actions">
-        <a class="btn btn--primary" href="https://alphacell-labs.com/products/alphacell-creatine-collagen-300-g-10-58-oz-30-servings">SHOP CREATINE &amp; COLLAGEN</a>
+        <a class="btn btn--primary" href="https://alphacell-labs.com/products/alphacell-creatine-collagen-300-g-10-58-oz-30-servings">SHOP CREATINE + COLLAGEN</a>
         <a class="btn btn--ghost" href="#formula">SEE THE FORMULA</a>
       </div>
+
+      <form class="signup" action="https://alphacell-labs.com/contact#contact_form" method="post" accept-charset="UTF-8">
+        <input type="hidden" name="form_type" value="customer">
+        <input type="hidden" name="utf8" value="✓">
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <label class="signup__label" for="signupEmail">Get restock and formulation updates</label>
+        <div class="signup__row">
+          <input class="signup__input" id="signupEmail" type="email" name="contact[email]"
+                 autocomplete="email" required placeholder="you@example.com">
+          <button class="btn btn--ghost signup__btn" type="submit">NOTIFY ME</button>
+        </div>
+        <p class="signup__fine">Submits to the Alphacell Labs store. Unsubscribe any time.</p>
+      </form>
 
       <footer class="legal">
         <p>These references and statements are shared for educational purposes only. They are not medical advice, and they should not be interpreted as claims that any Alphacell Labs product will diagnose, treat, cure, or prevent any disease.</p>

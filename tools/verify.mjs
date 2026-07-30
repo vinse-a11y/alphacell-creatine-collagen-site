@@ -49,7 +49,7 @@ const browser = await chromium.launch();
 
   // canvas painted (frame 1 is near-black by design, so check alpha coverage)
   const painted = await page.evaluate(() => {
-    const c = document.querySelector('#chapter-elements .chapter__canvas');
+    const c = document.querySelector('#chapter-drop .chapter__canvas');
     const d = c.getContext('2d').getImageData(0, 0, c.width, Math.min(200, c.height)).data;
     let a = 0; for (let i = 3; i < d.length; i += 401) a += d[i];
     return a > 0;
@@ -68,34 +68,36 @@ const browser = await chromium.launch();
   const H = await page.evaluate(() => document.body.scrollHeight);
   const vh = 900;
   let lastFrames = {};
-  const chapters = ['elements', 'formation', 'ritual'];
-  const sampleShots = { 0.08: 'v_hero', 0.32: 'v_formation_mid', 0.46: 'v_formation_end', 0.62: 'v_ritual', 0.9: 'v_cta' };
+  const chapters = ['drop', 'descent', 'deep'];
+  const sampleShots = { 0.08: 'v_hero', 0.32: 'v_descent_mid', 0.46: 'v_descent_end', 0.62: 'v_deep', 0.9: 'v_cta' };
   for (let f = 0; f <= 1.001; f += 0.02) {
     await page.evaluate(y => window.scrollTo(0, y), Math.round((H - vh) * f));
     await page.waitForTimeout(90);
     const key = Object.keys(sampleShots).find(k => Math.abs(k - f) < 0.011);
     if (key) await page.screenshot({ path: join(root, 'tools', 'samples', sampleShots[key] + '.png') });
   }
-  // meter synced at formation end + stage activation
-  const yFormEnd = await page.evaluate(() => {
-    const el = document.getElementById('chapter-formation');
-    return el.offsetTop + (el.offsetHeight - innerHeight) * 0.95;
+  // gauge + stations synced at the end of the descent
+  const yDescentEnd = await page.evaluate(() => {
+    const el = document.getElementById('chapter-descent');
+    return el.offsetTop + (el.offsetHeight - innerHeight);
   });
-  await jump(yFormEnd);
+  await jump(yDescentEnd);
   await page.waitForTimeout(600);
-  const meter = await page.evaluate(() => ({
-    fill: parseFloat(document.getElementById('meterFill').style.height),
-    active: [...document.querySelectorAll('.meter__stage')].map(e => e.classList.contains('is-active'))
+  const gauge = await page.evaluate(() => ({
+    fill: parseFloat(document.getElementById('gaugeFill').style.width),
+    num: document.getElementById('gaugeNum').textContent,
+    lastStation: [...document.querySelectorAll('.station')].pop().classList.contains('is-on')
   }));
-  note(meter.fill > 90, 'desktop: meter fill tracks scroll', 'fill=' + meter.fill + '%');
-  note(meter.active[2] && !meter.active[0], 'desktop: stage 03 active at formation end', JSON.stringify(meter.active));
+  note(gauge.fill > 90, 'desktop: serving gauge tracks scroll', 'fill=' + gauge.fill + '%');
+  note(gauge.num === '30', 'desktop: gauge reaches serving 30 of 30', 'reads ' + gauge.num);
+  note(gauge.lastStation, 'desktop: final depth station surfaced');
 
   // true black during final chapters
-  const yRitual = await page.evaluate(() => {
-    const el = document.getElementById('chapter-ritual');
+  const yDeep = await page.evaluate(() => {
+    const el = document.getElementById('chapter-deep');
     return el.offsetTop + (el.offsetHeight - innerHeight) * 0.9;
   });
-  await jump(yRitual);
+  await jump(yDeep);
   await page.waitForTimeout(600);
   const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
   note(bg === 'rgb(0, 0, 0)', 'desktop: page reaches true black in final chapter', bg);
@@ -105,7 +107,7 @@ const browser = await chromium.launch();
     await page.evaluate(y => window.scrollTo(0, y), Math.round((H - vh) * f));
     await page.waitForTimeout(60);
   }
-  const heroShown = await page.evaluate(() => document.querySelector('#chapter-elements .chapter__canvas') && true);
+  const heroShown = await page.evaluate(() => document.querySelector('#chapter-drop .chapter__canvas') && true);
   note(heroShown, 'desktop: reverse scrub ok');
 
   // keyboard access: loader hands focus to main; skip link is the document's
@@ -124,6 +126,13 @@ const browser = await chromium.launch();
   await page.keyboard.press('Tab');
   const focused = await page.evaluate(() => document.activeElement.tagName + '.' + document.activeElement.className);
   note(/SUMMARY|A\./.test(focused), 'desktop: keyboard navigation operable', focused);
+
+  const formOK = await page.evaluate(() => {
+    const i = document.getElementById('signupEmail');
+    const l = document.querySelector('label[for="signupEmail"]');
+    return !!(i && l && l.textContent.trim().length > 3 && i.type === 'email');
+  });
+  note(formOK, 'desktop: email field has an associated label');
 
   note(errors.length === 0, 'desktop: no console errors', errors.slice(0, 4).join(' | '));
   note(badReq.length === 0, 'desktop: no broken local requests', badReq.slice(0, 4).join(' | '));
@@ -148,7 +157,7 @@ const browser = await chromium.launch();
 {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   const desktopFrames = [], errors = [];
-  page.on('request', r => { if (/frames\/(elements|formation|ritual)\/frame_/.test(r.url())) desktopFrames.push(r.url()); });
+  page.on('request', r => { if (/frames\/(drop|descent|deep)\/frame_/.test(r.url())) desktopFrames.push(r.url()); });
   page.on('pageerror', e => errors.push(e.message));
   await page.goto('http://127.0.0.1:8712/');
   await page.waitForFunction(() => !document.getElementById('loader'), null, { timeout: 20000 }).catch(() => {});

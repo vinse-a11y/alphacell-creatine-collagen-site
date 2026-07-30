@@ -15,9 +15,16 @@
   // mode: 'full' (desktop canvas scrub) | 'keyframes' (mobile img scrub) | 'static'
   var mode = reducedMotion || !canvasOK ? 'static' : (isNarrow ? 'keyframes' : 'full');
 
-  var CHAPTERS = ['elements', 'formation', 'ritual'];
-  // background colour stops: #171A1D -> #0D1114 -> #050606 -> #000000
-  var STOPS = [[23, 26, 29], [13, 17, 20], [5, 6, 6], [0, 0, 0]];
+  var CHAPTERS = ['drop', 'descent', 'deep'];
+  // page ground follows the water: sunlit -> shallow -> baltic -> obsidian -> black
+  var WATER = [[0, [11, 63, 88]], [0.26, [11, 42, 62]], [0.55, [16, 30, 42]],
+               [0.80, [7, 9, 11]], [1, [0, 0, 0]]];
+  // matches depthAt() in tools/renderer.html so film and page darken together
+  function depthAt(T) {
+    if (T < 1) { return T * 0.17; }
+    if (T < 2) { return 0.17 + (T - 1) * 0.75; }
+    return 0.92 + (T - 2) * 0.08;
+  }
   var FRAME_COUNT = 150;
   var KEY_COUNT = 20;
   var loader = document.getElementById('loader');
@@ -49,7 +56,7 @@
     html.classList.add('mobile-cinema', 'static-cinema'); // posters visible, canvases hidden, pins collapsed
     if (loader) { loader.classList.add('is-done'); loader.setAttribute('aria-hidden', 'true'); }
     document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('is-on'); });
-    document.querySelectorAll('.meter__stage').forEach(function (el) { el.classList.add('is-active'); });
+    document.querySelectorAll('.station').forEach(function (el) { el.classList.add('is-on'); });
     var pr = document.getElementById('productRender');
     if (pr) { pr.classList.add('is-on'); }
     wireImageFallbacks();
@@ -234,17 +241,23 @@
     window.__lenis = lenis; // exposed for QA tooling
   }
 
-  /* background colour sync (formation: #171A1D -> #0D1114 -> #050606, ritual -> #000) */
-  function mixc(a, b, t) {
-    return 'rgb(' + Math.round(a[0] + (b[0] - a[0]) * t) + ',' + Math.round(a[1] + (b[1] - a[1]) * t) + ',' + Math.round(a[2] + (b[2] - a[2]) * t) + ')';
+  /* page ground darkens in step with the film's water */
+  function rampAt(d) {
+    for (var i = 0; i < WATER.length - 1; i++) {
+      var a = WATER[i], b = WATER[i + 1];
+      if (d <= b[0]) {
+        var t = (d - a[0]) / (b[0] - a[0]);
+        return 'rgb(' + Math.round(a[1][0] + (b[1][0] - a[1][0]) * t) + ',' +
+                        Math.round(a[1][1] + (b[1][1] - a[1][1]) * t) + ',' +
+                        Math.round(a[1][2] + (b[1][2] - a[1][2]) * t) + ')';
+      }
+    }
+    return 'rgb(0,0,0)';
   }
   function syncBackground() {
-    var f = sections[1].progress, r = sections[2].progress;
-    var col;
-    if (r > 0) { col = mixc(STOPS[2], STOPS[3], Math.min(1, r * 2.2)); }
-    else if (f > 0) {
-      col = f < 0.5 ? mixc(STOPS[0], STOPS[1], f * 2) : mixc(STOPS[1], STOPS[2], (f - 0.5) * 2);
-    } else { col = mixc(STOPS[0], STOPS[0], 0); }
+    // global position through the three chapters, then the shared depth curve
+    var T = sections[0].progress + sections[1].progress + sections[2].progress;
+    var col = rampAt(depthAt(Math.min(2.999, T)));
     document.body.style.backgroundColor = col;
     sections.forEach(function (s) { s.el.style.backgroundColor = col; });
   }
@@ -263,14 +276,15 @@
         el.classList.toggle('is-on', s.progress >= a && s.progress <= b);
       });
     });
-    // formation meter
+    // the container holds 30 servings; the descent counts through them
     var fp = sections[1].progress;
-    var fill = document.getElementById('meterFill');
-    if (fill) { fill.style.height = (fp * 100).toFixed(1) + '%'; }
-    document.querySelectorAll('.meter__stage').forEach(function (el, i) {
-      var lo = i / 3, hi = (i + 1) / 3;
-      el.classList.toggle('is-active', fp >= lo && (fp < hi || (i === 2 && fp >= lo)));
-    });
+    var num = document.getElementById('gaugeNum');
+    var fill = document.getElementById('gaugeFill');
+    var serving = Math.max(1, Math.min(30, Math.round(fp * 29) + 1));
+    if (num && num.textContent !== String(serving)) {
+      num.textContent = serving < 10 ? '0' + serving : String(serving);
+    }
+    if (fill) { fill.style.width = (fp * 100).toFixed(1) + '%'; }
     syncBackground();
   }
 

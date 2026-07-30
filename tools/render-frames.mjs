@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const mode = process.argv[2] || 'sample';
 
-const CHAPTERS = ['elements', 'formation', 'ritual'];
+const CHAPTERS = ['drop', 'descent', 'deep'];
 const FRAMES = 150;
 const W = 1600, H = 900;
 const JPEG_Q = 0.86; // ~ ffmpeg -q:v 3
@@ -19,7 +19,15 @@ const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: W, height: H } });
 page.on('pageerror', e => { console.error('PAGE ERROR', e); process.exitCode = 1; });
 await page.goto('file://' + join(root, 'tools', 'renderer.html'));
+await page.evaluate(() => window.__ready);
 await page.evaluate(([w, h]) => window.__setSize(w, h), [W, H]);
+
+if (mode === 'product') {
+  save(join(root, 'tools', 'samples', 'product.jpg'), await page.evaluate(() => window.__product()));
+  console.log('product bitmap written');
+  await browser.close();
+  process.exit(0);
+}
 
 async function shot(T, q = JPEG_Q) {
   return await page.evaluate(([T, q]) => { window.__render(T); return window.__shot(q); }, [T, q]);
